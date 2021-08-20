@@ -244,7 +244,8 @@ void JitterBuffer::readBroadcastSlot(int8_t* ptrToReadSlot)
     }
     // latency correction
     int32_t d = mReadPosition - mBroadcastLatency - mBroadcastPosition - len;
-    if (std::abs(d) > mBroadcastLatency / 2) {
+    // TODO Use C++20's std::cmp_greater() in the future
+    if (static_cast<unsigned int>(std::abs(d)) > mBroadcastLatency / 2) {
         mBroadcastPosition     = mReadPosition - mBroadcastLatency - len;
         mBroadcastPositionCorr = 0.0;
         mBroadcastSkew += d / mMinStepSize;

@@ -91,10 +91,11 @@ void RtAudioInterface::setup()
         }
     }
 
-    if (getNumInputChannels() > dev_info_input.inputChannels) {
+    if (static_cast<unsigned int>(getNumInputChannels()) > dev_info_input.inputChannels) {
         setNumInputChannels(dev_info_input.inputChannels);
     }
-    if (getNumOutputChannels() > dev_info_output.outputChannels) {
+    if (static_cast<unsigned int>(getNumOutputChannels())
+        > dev_info_output.outputChannels) {
         setNumOutputChannels(dev_info_output.outputChannels);
     }
 
