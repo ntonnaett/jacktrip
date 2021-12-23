@@ -1,0 +1,4 @@
+mkdocs
+mkdocs-material
+mkdocs-macros-plugin
+git+https://github.com/pieterdavid/mkdocs-doxygen-plugin.git#egg=mkdocs-doxygen-plugin
