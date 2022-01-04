@@ -74,7 +74,7 @@ class Effects
     bool outFreeverb              = false;
     bool incomingEffectsAllocated = false;
     bool outgoingEffectsAllocated = false;
-    Compressor* inCompressorP     = nullptr;
+    Compressor* inCompressorP     = NULL;
     Compressor* outCompressorP    = nullptr;
     CompressorPreset inCompressorPreset =
         CompressorPresets::voice;  // ./CompressorPresets.h
