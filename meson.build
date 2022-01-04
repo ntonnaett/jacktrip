@@ -16,18 +16,13 @@ compiler = meson.get_compiler('cpp')
 
 defines = ['-DWAIRTOHUB']
 c_defines = []
-if host_machine.system() == 'linux'
-	defines += '-D__LINUX__'
-elif host_machine.system() == 'darwin'
-	defines += '-D__MAC_OSX__'
-elif host_machine.system() == 'windows'
-	defines += '-D__WIN_32__'
+if host_machine.system() == 'windows'
 	defines += '-D_WIN32_WINNT=0x0600'
 	defines += '-DWIN32_LEAN_AND_MEAN'
 	defines += '-DNOMINMAX'
 endif
 
-incdir = include_directories('externals/weakjack')
+incdirs = []
 
 src = [	'src/DataProtocol.cpp',
 	'src/JackTrip.cpp',
@@ -66,13 +61,14 @@ qres = []
 deps = [dependency('threads')]
 jack_dep = dependency('jack', required: get_option('jack'))
 if not jack_dep.found()
-	defines += '-D__NO_JACK__'
+	defines += '-DNO_JACK'
 else
 	src += 	['src/JackAudioInterface.cpp',
 		'src/JMess.cpp',
 		'src/Patcher.cpp']
 	moc_h += ['src/Patcher.h']
 	if get_option('weakjack') == true
+		incdirs += include_directories('externals/weakjack')
 		src += 'externals/weakjack/weak_libjack.c'
 		defines += '-DUSE_WEAK_JACK'
 		c_defines += '-DUSE_WEAK_JACK'
@@ -111,7 +107,7 @@ defines += '-DQT_OPENSOURCE'
 
 rtaudio_dep = dependency('rtaudio', required: get_option('rtaudio'))
 if rtaudio_dep.found() == true
-	defines += '-D__RT_AUDIO__'
+	defines += '-DRT_AUDIO'
 	src += 'src/RtAudioInterface.cpp'
 	deps += rtaudio_dep
 endif
@@ -144,7 +140,7 @@ endif
 
 subdir('linux')
 
-jacktrip = executable('jacktrip', src, prepro_files, include_directories: incdir, dependencies: deps, c_args: c_defines, cpp_args: defines, install: true )
+jacktrip = executable('jacktrip', src, prepro_files, include_directories: incdirs, dependencies: deps, c_args: c_defines, cpp_args: defines, install: true )
 
 help2man = find_program('help2man', required: false)
 if not (host_machine.system() == 'windows')

@@ -40,7 +40,7 @@
 
 #include "AudioInterface.h"
 
-constexpr const char* const gVersion = "1.5.0";  ///< JackTrip version
+constexpr const char* const gVersion = "1.5.1";  ///< JackTrip version
 
 //*******************************************************************************
 /// \name Default Values
@@ -125,7 +125,7 @@ constexpr int gMaxRemoteNameLength           = 64;
 //*******************************************************************************
 /// \name Global Functions
 
-#ifdef __MAC_OSX__
+#ifdef __APPLE__
 void setRealtimeProcessPriority(int bufferSize, int sampleRate);
 #else
 void setRealtimeProcessPriority();
